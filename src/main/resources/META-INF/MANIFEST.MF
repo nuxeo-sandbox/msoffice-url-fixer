@@ -1,7 +1,0 @@
-Manifest-Version: 1.0
-Bundle-ManifestVersion: 1
-Bundle-Name: Nuxeo Support
-Bundle-SymbolicName: org.nuxeo.msoffice.url.fixer;singleton:=true
-Bundle-Vendor: Nuxeo
-Bundle-Version: 1.0.0
- 

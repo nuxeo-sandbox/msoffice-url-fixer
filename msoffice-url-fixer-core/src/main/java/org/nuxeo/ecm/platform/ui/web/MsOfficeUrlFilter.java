@@ -1,24 +1,8 @@
-/*
- * (C) Copyright 2020 Nuxeo SA (http://nuxeo.com/) and others.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- *
- * Contributors:
- *     Thierry Martins
- */
 package org.nuxeo.ecm.platform.ui.web;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -39,9 +23,9 @@ public class MsOfficeUrlFilter implements Filter {
 
 	private static final String CONTEXT_PATH_PROPERTY = "org.nuxeo.ecm.contextPath";
 
-	private String fragmentToMatch;
-
-	private String replacementFragment;
+	private Map<String, String> urlFragmentPatterns = new HashMap<>();
+	
+	private String newUrl;
 
 	public MsOfficeUrlFilter() {
 	}
@@ -50,29 +34,38 @@ public class MsOfficeUrlFilter implements Filter {
 	public void init(FilterConfig fConfig) throws ServletException {
 		log.debug("MsOfficeUrlFilter initialization");
 		String contextRoot = Framework.getProperty(CONTEXT_PATH_PROPERTY);
-		fragmentToMatch = String.format("%s/ui/%%23!", contextRoot);
-		replacementFragment = String.format("%s/ui/#!", contextRoot);
-		return;
+		var replacementFragment = String.format("%s/ui/#!", contextRoot);
+		if (urlFragmentPatterns.isEmpty()) {
+		    urlFragmentPatterns.put(String.format("%s/ui/%%23!", contextRoot), replacementFragment);
+		    urlFragmentPatterns.put(String.format("%s/ui/#%%21", contextRoot), replacementFragment);
+		    urlFragmentPatterns.put(String.format("%s/ui/%%23%%21", contextRoot), replacementFragment);
+		}
 	}
 
 	@Override
 	public void destroy() {
 		log.debug("MsOfficeUrlFilter destroy");
-		return;
 	}
 
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
 			throws IOException, ServletException {
-
 		if (request instanceof HttpServletRequest) {
 			HttpServletRequest req = (HttpServletRequest) request;
 			String url = req.getRequestURL().toString();
-			if (url.indexOf(fragmentToMatch) != -1) {
-				String newUrl = url.replaceFirst(fragmentToMatch, replacementFragment);
-				log.debug("Redirection to " + newUrl);
-				HttpServletResponse httpResponse = (HttpServletResponse) response;
-				httpResponse.sendRedirect(newUrl);
-				return;
+			newUrl = null;
+			urlFragmentPatterns.forEach((pattern, replacement) -> {
+			    if (newUrl == null) {
+			        log.debug("<doFilter> " + url + " == " + pattern + " == " + replacement);
+			        if (url.indexOf(pattern) != -1) {
+			            newUrl = url.replaceFirst(pattern, replacement);
+			            log.debug("<doFilter> Redirection to " + newUrl);
+			        }
+			    }
+			});
+			if (newUrl != null) {
+			    HttpServletResponse httpResponse = (HttpServletResponse) response;
+			    httpResponse.sendRedirect(newUrl);
+			    return;
 			}
 		}
 		chain.doFilter(request, response);
