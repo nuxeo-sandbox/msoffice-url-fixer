@@ -7,6 +7,18 @@ This plugin provides a filter that redirects incorrect URL built by **MS Office*
 
 It was generated with the following commands:
 ```
+mkdir msoffice-url-fixer && cd $_
+nuxeo b multi-module
+nuxeo b single-module --type core
+# edit msoffice-url-fixer-core/src/main/java/org/nuxeo/ecm/platform/ui/web/MsOfficeUrlFilter.java
+# edit msoffice-url-fixer-core/src/main/resources/OSGI-INF/deployment-fragment.xml
+mvn clean package -DskipTests -T 4C
+nuxeo b package
+mvn package -DskipTests -T 4C
+nuxeo b docker
+mvn package -DskipTests -T 4C
+nuxeo b docker-compose
+# Edit docker-compose.yml (image version, CLID, package dependencies)
 ```
 
 ## Requirements
