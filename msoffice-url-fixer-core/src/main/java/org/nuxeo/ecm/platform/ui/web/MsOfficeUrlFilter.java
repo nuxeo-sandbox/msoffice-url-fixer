@@ -13,13 +13,13 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.nuxeo.runtime.api.Framework;
 
 public class MsOfficeUrlFilter implements Filter {
 
-	private static final Log log = LogFactory.getLog(MsOfficeUrlFilter.class);
+	private static final Logger log = LogManager.getLogger(MsOfficeUrlFilter.class);
 
 	private static final String CONTEXT_PATH_PROPERTY = "org.nuxeo.ecm.contextPath";
 
@@ -55,10 +55,10 @@ public class MsOfficeUrlFilter implements Filter {
 			newUrl = null;
 			urlFragmentPatterns.forEach((pattern, replacement) -> {
 			    if (newUrl == null) {
-			        log.debug("<doFilter> " + url + " == " + pattern + " == " + replacement);
+			        log.debug("<doFilter> {} == {} == {}", url, pattern, replacement);
 			        if (url.indexOf(pattern) != -1) {
 			            newUrl = url.replaceFirst(pattern, replacement);
-			            log.debug("<doFilter> Redirection to " + newUrl);
+			            log.debug("<doFilter> Redirection to {}", newUrl);
 			        }
 			    }
 			});
