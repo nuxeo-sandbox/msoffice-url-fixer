@@ -1,17 +1,17 @@
 <!-- See documentation at http://doc.nuxeo.com/x/HgIz -->
 <package type="addon" name="msoffice-url-fixer" version="@VERSION@">
-  <title>Msoffice url fixer</title>
+  <title>MS Office URL fixer</title>
   <description>
-    <p>Put here an HTML description of your Nuxeo Package.</p>
+    <p>This patch redirects incorrect URL built by MS Office to work with WebUI.</p>
   </description>
   <!-- <home-page>http://doc.nuxeo.com/</home-page> -->
-  <vendor>Acme</vendor>
+  <vendor>Nuxeo</vendor>
   <installer restart="true" />
   <uninstaller restart="true" />
   <!-- <hotreload-support>false</hotreload-support> -->
   <!-- <require-terms-and-conditions-acceptance>false</require-terms-and-conditions-acceptance> -->
   <!-- Nuxeo Validation: none | inprocess | primary_validation | nuxeo_certified -->
-  <nuxeo-validation>none</nuxeo-validation>
+  <nuxeo-validation>nuxeo_certified</nuxeo-validation>
   <!-- Production State: production_ready | testing | proto -->
   <production-state>testing</production-state>
   <supported>false</supported>
@@ -35,8 +35,8 @@
   <!-- <provides> -->
   <!-- <package>an-embedded-package:1.0.0:1.0.0</package> -->
   <!-- </provides> -->
-  <license></license>
-  <license-url></license-url>
+  <license>LGPL</license>
+  <license-url>http://www.gnu.org/licenses/lgpl-2.1.html</license-url>
   <!-- Visibility: PRIVATE | MARKETPLACE | DEV | PUBLIC -->
-  <visibility>DEV</visibility>
+  <visibility>PUBLIC</visibility>
 </package>

@@ -9,7 +9,7 @@
 
   <groupId>org.nuxeo</groupId>
   <artifactId>msoffice-url-fixer-parent</artifactId>
-  <version>2021.1.0</version>
+  <version>2021.1.1</version>
   <name>Msoffice url fixer parent</name>
   <description />
   <packaging>pom</packaging>

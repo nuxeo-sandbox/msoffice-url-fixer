@@ -6,7 +6,7 @@
   <parent>
     <groupId>org.nuxeo</groupId>
     <artifactId>msoffice-url-fixer-parent</artifactId>
-    <version>2021.1.0</version>
+    <version>2021.1.1</version>
   </parent>
   <artifactId>msoffice-url-fixer-core</artifactId>
   <name>Msoffice url fixer core</name>
